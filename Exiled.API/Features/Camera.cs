@@ -24,7 +24,7 @@ namespace Exiled.API.Features
     /// <summary>
     /// The in-game Scp079Camera.
     /// </summary>
-    public class Camera : GameEntity, IWrapper<Scp079Camera>
+    public class Camera : IWrapper<Scp079Camera>, IWorldSpace
     {
         /// <summary>
         /// A <see cref="Dictionary{TKey,TValue}"/> containing all known <see cref="Scp079Camera"/>s and their corresponding <see cref="Camera"/>.
@@ -134,7 +134,6 @@ namespace Exiled.API.Features
         /// </summary>
         /// <param name="camera079">The base camera.</param>
         internal Camera(Scp079Camera camera079)
-            : base(camera079.gameObject)
         {
             Base = camera079;
             Camera079ToCamera.Add(camera079, this);
@@ -148,7 +147,7 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets a <see cref="IEnumerable{T}"/> of <see cref="Camera"/> which contains all the <see cref="Camera"/> instances.
         /// </summary>
-        public static new IReadOnlyCollection<Camera> List => Camera079ToCamera.Values;
+        public static IReadOnlyCollection<Camera> List => Camera079ToCamera.Values;
 
         /// <summary>
         /// Gets a randomly selected <see cref="Camera"/>.
@@ -160,6 +159,16 @@ namespace Exiled.API.Features
         /// Gets the base <see cref="Scp079Camera"/>.
         /// </summary>
         public Scp079Camera Base { get; }
+
+        /// <summary>
+        /// Gets the camera's <see cref="UnityEngine.GameObject"/>.
+        /// </summary>
+        public GameObject GameObject => Base.gameObject;
+
+        /// <summary>
+        /// Gets the camera's <see cref="UnityEngine.Transform"/>.
+        /// </summary>
+        public Transform Transform => Base.transform;
 
         /// <summary>
         /// Gets the camera's name.
@@ -189,12 +198,12 @@ namespace Exiled.API.Features
         /// <summary>
         /// Gets the camera's position.
         /// </summary>
-        public override Vector3 Position => Base.Position;
+        public Vector3 Position => Base.Position;
 
         /// <summary>
         /// Gets the camera's rotation.
         /// </summary>
-        public override Quaternion Rotation => Base._cameraAnchor.rotation;
+        public Quaternion Rotation => Base._cameraAnchor.rotation;
 
         /// <summary>
         /// Gets the value of the <see cref="Camera"/> zoom.

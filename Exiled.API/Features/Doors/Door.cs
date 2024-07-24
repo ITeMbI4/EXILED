@@ -32,7 +32,7 @@ namespace Exiled.API.Features.Doors
     /// <summary>
     /// A wrapper class for <see cref="DoorVariant"/>.
     /// </summary>
-    public class Door : GameEntity, IWrapper<DoorVariant>
+    public class Door : TypeCastObject<Door>, IWrapper<DoorVariant>, IWorldSpace
     {
         /// <summary>
         /// A <see cref="Dictionary{TKey,TValue}"/> containing all known <see cref="DoorVariant"/>'s and their corresponding <see cref="Door"/>.
@@ -45,7 +45,6 @@ namespace Exiled.API.Features.Doors
         /// <param name="door">The base <see cref="DoorVariant"/> for this door.</param>
         /// <param name="rooms">The <see cref="List{T}"/> of <see cref="Features.Room"/>'s for this door.</param>
         internal Door(DoorVariant door, List<Room> rooms)
-            : base(door.gameObject)
         {
             Base = door;
 
@@ -68,12 +67,22 @@ namespace Exiled.API.Features.Doors
         /// <summary>
         /// Gets a <see cref="IEnumerable{T}"/> of <see cref="Door"/> which contains all the <see cref="Door"/> instances.
         /// </summary>
-        public static new IReadOnlyCollection<Door> List => DoorVariantToDoor.Values;
+        public static IReadOnlyCollection<Door> List => DoorVariantToDoor.Values;
 
         /// <summary>
         /// Gets the base-game <see cref="DoorVariant"/> corresponding with this door.
         /// </summary>
         public DoorVariant Base { get; }
+
+        /// <summary>
+        /// Gets the door's <see cref="UnityEngine.GameObject"/>.
+        /// </summary>
+        public GameObject GameObject => Base.gameObject;
+
+        /// <summary>
+        /// Gets the door's <see cref="UnityEngine.Transform"/>.
+        /// </summary>
+        public Transform Transform => Base.transform;
 
         /// <summary>
         /// Gets the door's <see cref="DoorType"/>.
@@ -191,7 +200,7 @@ namespace Exiled.API.Features.Doors
         /// <summary>
         /// Gets or sets the door's position.
         /// </summary>
-        public override Vector3 Position
+        public Vector3 Position
         {
             get => Transform.position;
             set
@@ -260,7 +269,7 @@ namespace Exiled.API.Features.Doors
         /// <summary>
         /// Gets or sets the door's rotation.
         /// </summary>
-        public override Quaternion Rotation
+        public Quaternion Rotation
         {
             get => Transform.rotation;
             set
