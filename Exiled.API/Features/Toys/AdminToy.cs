@@ -21,7 +21,7 @@ namespace Exiled.API.Features.Toys
     /// <summary>
     /// A wrapper class for <see cref="AdminToys.AdminToyBase"/>.
     /// </summary>
-    public abstract class AdminToy : TypeCastObject<GameEntity>, IWorldSpace, IAssetFragment
+    public abstract class AdminToy : IWorldSpace
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdminToy"/> class.
